@@ -1,0 +1,88 @@
+name: Guide-Portal aktualisieren
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['status/**']
+  release:
+    types: [published]
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */4 * * *'
+permissions:
+  contents: read
+concurrency:
+  group: guide-portal
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: read
+    outputs:
+      dcs_build: ${{ steps.state.outputs.dcs_build }}
+      source_sha256: ${{ steps.state.outputs.source_sha256 }}
+      source_status: ${{ steps.state.outputs.source_status }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Publication gate tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Check DCS and build current downloads
+        run: python3 tools/build_site.py
+      - name: Record build outputs
+        id: state
+        run: |
+          python3 - <<'PY'
+          import json, os
+          s=json.load(open('_site/status.json', encoding='utf-8'))
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              for key in ['dcs_build','source_sha256','source_status']:
+                  f.write(f'{key}={s[key] or ""}\n')
+          PY
+      - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+      - uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: _site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish the checked selection
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
+  record-check:
+    needs: [build, deploy]
+    if: needs.build.outputs.source_status == 'ok'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: main
+      - name: Keep a weekly public version-check receipt
+        env:
+          DCS_BUILD: ${{ needs.build.outputs.dcs_build }}
+          SOURCE_SHA256: ${{ needs.build.outputs.source_sha256 }}
+        run: python3 tools/record_check.py
+      - name: Save a new receipt when needed
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add status/last-successful-check.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Record successful DCS version check'
+            git push origin HEAD:main
+          fi

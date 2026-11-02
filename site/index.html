@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Project X Guides: zentrale Downloads der für einen konkreten DCS-Build geprüften und freigegebenen Ausgaben.">
+  <title>Project X · Guides</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header><a class="brand" href="./">PROJECT X <span>GUIDES</span></a><a class="subtle" href="https://github.com/Wattl/Project-X-Guides">Auf GitHub</a></header>
+  <main>
+    <section class="intro">
+      <p class="eyebrow">DCS · PILOTENAUSBILDUNG</p>
+      <h1>Dein Einstieg.<br>Der geprüfte Stand.</h1>
+      <p class="lead">Hier findest du die neueste freigegebene Ausgabe jedes Project-X-Guides, passend zur zuletzt abgefragten offiziellen DCS-Version.</p>
+      <p class="share">Eine Adresse zum Speichern und Weitergeben: <a href="https://wattl.github.io/Project-X-Guides/">wattl.github.io/Project-X-Guides</a></p>
+    </section>
+    <section class="status" aria-label="Versionsprüfung">
+      <div><span class="label">DCS-BUILD</span><strong id="dcs-build">Wird geprüft …</strong></div>
+      <div><span class="label">LETZTE ABFRAGE</span><strong id="checked-at">Wird geladen …</strong></div>
+      <div><span class="label">AKTUELLE GUIDES</span><strong id="guide-count">—</strong></div>
+    </section>
+    <section aria-labelledby="downloads-title">
+      <h2 id="downloads-title">Aktuelle Downloads</h2>
+      <p id="notice" class="notice" role="status">Der aktuelle Veröffentlichungsstand wird geladen.</p>
+      <div id="downloads" class="cards"></div>
+      <noscript><p class="notice">Bitte JavaScript aktivieren. Downloadlinks werden erst nach Prüfung des Aktualitätsdatums angezeigt.</p></noscript>
+    </section>
+    <section aria-labelledby="preparation-title">
+      <h2 id="preparation-title">In Vorbereitung</h2>
+      <div id="preparation" class="preparation"></div>
+      <p class="fine">Entwürfe werden hier nicht als freigegebene Downloads angeboten.</p>
+    </section>
+    <section class="explain" aria-labelledby="check-title">
+      <h2 id="check-title">Was „geprüft“ hier bedeutet</h2>
+      <p>Ein Guide braucht eine dokumentierte Fachprüfung, einen praktischen DCS-Test für den angegebenen Build, geklärte Veröffentlichungsrechte und die Freigabe der exakten PDF-Dateien.</p>
+      <p>Die Downloadliste wird bei einer Veröffentlichung und planmäßig alle vier Stunden aktualisiert. Nach einem neuen DCS-Build muss die Eignung erneut geprüft werden. Ein Versionswechsel erzeugt keine automatische Testfreigabe.</p>
+      <p class="fine">Ist die letzte erfolgreiche Versionsabfrage älter als acht Stunden oder nicht verfügbar, blendet diese Seite alle Downloadlinks aus. Alte Releases bleiben im GitHub-Archiv nachvollziehbar; sie gelten dort nicht automatisch als aktuell.</p>
+      <a href="https://updates.digitalcombatsimulator.com/">Offizielle DCS-Version ansehen ↗</a>
+    </section>
+  </main>
+  <footer><span>Project X · Community-Ausbildung für DCS</span><a href="https://github.com/Wattl/Project-X-Guides/blob/main/PUBLISHING.md">Prüf- und Veröffentlichungsverfahren</a><span>Kein offizielles Eagle-Dynamics-Handbuch.</span></footer>
+</body>
+</html>
