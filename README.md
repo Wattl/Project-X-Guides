@@ -20,7 +20,7 @@ GitHub kann Dateien verteilen und Nachweise prüfen. Die fachliche Arbeit, den p
 
 ## Pflege
 
-[Veröffentlichungsverfahren](PUBLISHING.md) · [Katalog](catalog/releases.json) · [Automatik](../../actions/workflows/publish.yml)
+[Veröffentlichungsverfahren](PUBLISHING.md) · [Katalog](catalog/releases.json) · [Automatik](https://github.com/Wattl/Project-X-Guides/actions/workflows/publish.yml)
 
 Die Prüfung läuft in GitHub Actions, auch wenn der lokale Rechner ausgeschaltet ist. Ein erfolgreicher Versionsabgleich wird einmal pro Kalenderwoche sowie bei einem DCS-Wechsel im Repository protokolliert. Das hält den öffentlichen Prüfverlauf nachvollziehbar und vermeidet reguläre Inaktivität des Zeitplans. Nach Ausfällen oder einer manuellen Deaktivierung muss die Automatik gegebenenfalls erneut gestartet werden.
 
