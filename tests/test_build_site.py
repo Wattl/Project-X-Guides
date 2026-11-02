@@ -1,5 +1,5 @@
 from pathlib import Path
-import hashlib,json,sys,tempfile,unittest
+import hashlib,json,sys,tempfile,unittest,io
 from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'tools'))
 import build_site
@@ -23,13 +23,14 @@ class VersionTests(unittest.TestCase):
 
 class BuildTests(unittest.TestCase):
     def setUp(self):
+        self.stdout_patch=patch('sys.stdout',new=io.StringIO());self.stdout_patch.start()
         self.temp=tempfile.TemporaryDirectory(prefix='.test-build-',dir=Path(__file__).resolve().parents[1]);self.root=Path(self.temp.name)
         for name in ['site','catalog']:(self.root/name).mkdir()
         for name in ['index.html','style.css','app.js']:(self.root/'site'/name).write_text('test',encoding='utf-8')
         (self.root/'catalog/releases.json').write_text('{"schema_version":1,"releases":[]}',encoding='utf-8')
         (self.root/'catalog/in_preparation.json').write_text('[]',encoding='utf-8')
         self.root_patch=patch.object(build_site,'ROOT',self.root);self.root_patch.start()
-    def tearDown(self):self.root_patch.stop();self.temp.cleanup()
+    def tearDown(self):self.root_patch.stop();self.temp.cleanup();self.stdout_patch.stop()
     def test_unavailable_dcs_removes_previous_downloads(self):
         previous=self.root/'_site/downloads/old.pdf';previous.parent.mkdir(parents=True);previous.write_bytes(b'%PDF-old')
         with patch.object(build_site,'current_build',side_effect=OSError('unavailable')):
