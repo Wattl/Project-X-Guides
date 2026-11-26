@@ -1,7 +1,7 @@
 {
   "week": "2026-W48",
-  "checked_at": "2026-11-23T00:56:39+00:00",
-  "dcs_build": "2.9.31.29434",
+  "checked_at": "2026-11-26T13:58:27+00:00",
+  "dcs_build": "2.9.32.30490",
   "source": "https://updates.digitalcombatsimulator.com/",
-  "source_sha256": "87d1c89ff6926fdf7bf6ab0e0e20d468816aaf79d6bf84980de6f4045af5d6a2"
+  "source_sha256": "ad2ab9cba8230814f42ddf5b13d1a8f82652422c2ed7732fe76904e15f58f438"
 }
